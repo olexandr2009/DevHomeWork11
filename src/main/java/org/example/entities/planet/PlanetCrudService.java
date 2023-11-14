@@ -44,7 +44,7 @@ public class PlanetCrudService {
     public List<Planet> getAll(){
         Session session = SESSION_FACTORY.openSession();
         List<Planet> list = session
-                .createQuery("FROM Planet", Planet.class)
+                .createNativeQuery("SELECT p1_0.id, p1_0.name FROM planet p1_0", Planet.class)
                 .list();
         session.close();
         return list;
@@ -52,10 +52,7 @@ public class PlanetCrudService {
 
     public Planet getById(String id){
         Session session = SESSION_FACTORY.openSession();
-        Planet planet = session
-                .createQuery("FROM Client WHERE id = :id", Planet.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        Planet planet = session.get(Planet.class, id);
         session.close();
         return planet;
     }

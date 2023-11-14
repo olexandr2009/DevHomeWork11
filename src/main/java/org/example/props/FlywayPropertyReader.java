@@ -26,11 +26,11 @@ public class FlywayPropertyReader {
     }
     public String getConnectionURL(){
         String database = FLYWAY_PROPERTIES.getProperty("db.kind");
-        switch (database){
-            case "postgresql": return getConnectionURLForPostgres();
-            case "h2": return getConnectionURLForH2();
-            default: throw new UnsupportedOperationException("We can't support other databases");
-        }
+        return switch (database) {
+            case "postgresql" -> getConnectionURLForPostgres();
+            case "h2" -> getConnectionURLForH2();
+            default -> throw new UnsupportedOperationException("We can't support other databases");
+        };
     }
 
     public String getConnectionURLForPostgres() {

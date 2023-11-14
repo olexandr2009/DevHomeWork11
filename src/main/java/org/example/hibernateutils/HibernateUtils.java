@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.example.entities.client.Client;
 import org.example.entities.planet.Planet;
 import org.example.entities.ticket.Ticket;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 

@@ -1,17 +1,14 @@
 package org.example.entities.client;
 
-import org.example.entities.planet.Planet;
 import org.example.hibernateutils.HibernateUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.util.List;
 
 public class ClientCrudService {
-    private final SessionFactory SESSION_FACTORY = HibernateUtils.getInstance().getSessionFactory();
-
+    protected final SessionFactory SESSION_FACTORY = HibernateUtils.getInstance().getSessionFactory();
     public Client save(String name) {
         Session session = SESSION_FACTORY.openSession();
             Transaction transaction = session.beginTransaction();
@@ -51,13 +48,11 @@ public class ClientCrudService {
     }
     public Client getById(Long id){
         Session session = SESSION_FACTORY.openSession();
-        Client client = session
-                .createQuery("FROM Client WHERE id = :id", Client.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        Client client = session.get(Client.class, id);
         session.close();
         return client;
     }
+
     public Client getByMaxId() {
         Session session = SESSION_FACTORY.openSession();
             Client client = session

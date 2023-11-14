@@ -23,16 +23,16 @@ public class Ticket {
     long id;
 
     @Column(name = "created_at")
-    LocalDateTime created_at;
+    LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
-    Client client_id;
+    Client clientId;
 
     @Column(name = "from_planet_id", nullable = false, length = 10)
-    String from_planet_id;
+    String fromPlanetId;
 
     @Column(name = "to_planet_id", nullable = false, length = 10)
-    String to_planet_id;
+    String toPlanetId;
 }
 

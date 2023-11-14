@@ -1,5 +1,6 @@
 INSERT INTO client (name)
-VALUES ('Bogdan'),
+VALUES
+('Bogdan'),
 ('Volodymyr'),
 ('Roman'),
 ('Olexandr'),
