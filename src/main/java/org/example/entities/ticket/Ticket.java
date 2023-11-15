@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.entities.client.Client;
+import org.example.entities.planet.Planet;
 
 import java.time.LocalDateTime;
 
@@ -29,10 +30,12 @@ public class Ticket {
     @JoinColumn(name = "client_id", nullable = false)
     Client clientId;
 
-    @Column(name = "from_planet_id", nullable = false, length = 10)
-    String fromPlanetId;
+    @ManyToOne
+    @JoinColumn(name = "from_planet_id", nullable = false)
+    Planet fromPlanetId;
 
-    @Column(name = "to_planet_id", nullable = false, length = 10)
-    String toPlanetId;
+    @ManyToOne
+    @JoinColumn(name = "to_planet_id", nullable = false)
+    Planet toPlanetId;
 }
 
