@@ -1,6 +1,5 @@
 package org.example.entities.planet;
 
-import org.example.entities.client.ClientCrudService;
 import org.example.hibernateutils.HibernateUtils;
 import org.example.init.DatabaseInitService;
 import org.example.props.FlywayPropertyReader;
