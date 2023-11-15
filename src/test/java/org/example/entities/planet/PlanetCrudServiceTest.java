@@ -1,5 +1,6 @@
 package org.example.entities.planet;
 
+import org.example.entities.client.ClientCrudService;
 import org.example.hibernateutils.HibernateUtils;
 import org.example.init.DatabaseInitService;
 import org.example.props.FlywayPropertyReader;
@@ -7,20 +8,34 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlanetCrudServiceTest {
     private static PlanetCrudService planetCrudService;
+    private static FlywayPropertyReader flywayPropertyReader ;
     @BeforeAll
     static void setup(){
-        new DatabaseInitService(new FlywayPropertyReader()).initDatabase();
+        flywayPropertyReader = new FlywayPropertyReader();
+        new DatabaseInitService(flywayPropertyReader).initDatabase();
         planetCrudService = new PlanetCrudService();
     }
     @AfterAll
-    static void dropConnection(){
+    static void dropConnection() throws Exception{
         HibernateUtils.getInstance().close();
+
+        try (Connection shutdown = DriverManager.getConnection(flywayPropertyReader.getConnectionURL(),
+                flywayPropertyReader.getUsername(),
+                flywayPropertyReader.getPassword())
+        ) {
+            try(Statement statement = shutdown.createStatement()){
+                statement.executeUpdate("SHUTDOWN");
+            }
+        }
     }
     @Test
     void testSaveThrowsEx_f(){

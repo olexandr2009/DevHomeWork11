@@ -8,20 +8,33 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
+import java.sql.*;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClientCrudServiceTest {
     private static ClientCrudService clientCrudService;
+    private static FlywayPropertyReader flywayPropertyReader ;
     @BeforeAll
     static void setup(){
-        new DatabaseInitService(new FlywayPropertyReader()).initDatabase();
+        flywayPropertyReader = new FlywayPropertyReader();
+        new DatabaseInitService(flywayPropertyReader).initDatabase();
         clientCrudService = new ClientCrudService();
     }
+
     @AfterAll
-    static void dropConnection(){
+    static void dropConnection() throws Exception{
         HibernateUtils.getInstance().close();
+
+        try (Connection shutdown = DriverManager.getConnection(flywayPropertyReader.getConnectionURL(),
+                flywayPropertyReader.getUsername(),
+                flywayPropertyReader.getPassword())
+        ) {
+            try(Statement statement = shutdown.createStatement()){
+                statement.executeUpdate("SHUTDOWN");
+            }
+        }
     }
     @Test
     void testSaveThrowsEx_F(){
