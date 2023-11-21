@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class ClientCrudService {
-    protected final SessionFactory SESSION_FACTORY = HibernateUtils.getInstance().getSessionFactory();
+    private final SessionFactory SESSION_FACTORY = HibernateUtils.getInstance().getSessionFactory();
     public Client save(String name) {
         Session session = SESSION_FACTORY.openSession();
             Transaction transaction = session.beginTransaction();

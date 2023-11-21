@@ -1,10 +1,7 @@
 package org.example.entities.ticket;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.example.entities.client.Client;
 import org.example.entities.planet.Planet;
@@ -12,8 +9,9 @@ import org.example.entities.planet.Planet;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "client")
+@Table(name = "ticket")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -26,15 +24,15 @@ public class Ticket {
     @Column(name = "created_at")
     LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
     Client clientId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_planet_id", nullable = false)
     Planet fromPlanetId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "to_planet_id", nullable = false)
     Planet toPlanetId;
 }
